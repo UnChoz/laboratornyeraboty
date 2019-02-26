@@ -1,0 +1,24 @@
+#include <iostream>
+#include "stdio.h"
+
+int main(void)
+{
+	float L, v1, v2, t;
+
+	printf("L=");
+	scanf_s("%f", &L);
+
+	printf("v1=");
+	scanf_s("%f", &v1);
+
+	printf("t=");
+	scanf_s("%f", &t);
+
+	v2 = (L - v1 * t / t);
+
+	printf("speed=%f\n", v2);
+
+	system("pause");
+
+	return 0;
+}
