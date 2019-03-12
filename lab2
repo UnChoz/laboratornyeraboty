@@ -1,0 +1,40 @@
+#include <stdio.h> 
+#include <iostream> 
+
+int main(void)
+{
+
+	float s;
+	float a;
+	float c;
+	float x;
+	int n;
+	int i;
+	int sign;
+
+	printf("n=");
+	scanf_s("%d", &n);
+
+	printf("x=");
+	scanf_s("%f", &x);
+
+	s = 0;
+	sign = 1;
+	c = x;
+	i = 1;
+
+	while (i <= n)
+	{
+
+		a = c / i;
+		s = s + a * sign;
+		c = c * x;
+		i++;
+	}
+
+	printf("s=%f", s);
+
+	system("pause");
+
+	return 0;
+}
