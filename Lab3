@@ -6,11 +6,11 @@ main()
 {
 	char str[MAXLINE];
 	int l,F,i,pos,k,N;
+	k=0
 	printf("write a string:\n");
 	memset(str,'\0',MAXLINE);
 	gets(str);
 	printf("write N:\n");
-	k=0
 	scanf("%d",&N);
 	for (i=0,l=0;i<MAXLINE;++i,l++)
 	{
