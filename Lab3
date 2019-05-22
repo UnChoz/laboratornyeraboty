@@ -10,6 +10,7 @@ main()
 	memset(str,'\0',MAXLINE);
 	gets(str);
 	printf("write N:\n");
+	k=0
 	scanf("%d",&N);
 	for (i=0,l=0;i<MAXLINE;++i,l++)
 	{
