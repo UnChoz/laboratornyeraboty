@@ -1,0 +1,47 @@
+#include <stdio.h>
+
+#include<time.h>
+
+#include<stdlib.h>
+
+#define N 10
+
+main()
+
+{
+
+int S[N];
+
+int i;
+
+float sram=0;
+
+srand(time(NULL));
+
+for(i=0;i<N;i++)
+
+{
+
+S[i]=(rand()%10);
+
+sram+=S[i];
+
+printf("%d ",S[i]);
+
+}
+
+printf("\n");
+
+sram/=N;
+
+printf("\n %f<<\n",sram);
+
+for(i=0;i<N;i++)
+
+S[i]=(S[i]<sram)? 0 : S[i];
+
+for(i=0; i < N; printf("%d ",S[i]),i++);
+
+return 0;
+
+}
