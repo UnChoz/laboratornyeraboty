@@ -1,0 +1,91 @@
+#pragma warning(disable: 4996)
+
+#include<stdio.h>
+
+void main(void)
+
+{
+
+FILE *f;
+
+FILE *f2=fopen("output.txt","wt");
+
+int fl = 0;
+
+char s[1000];
+
+int count = 0;
+
+int max_c = 0,copy = 0;
+
+a:
+
+f = fopen("text.txt", "rt");
+
+while (fgets(s, 100, f) != NULL)
+
+{
+
+int F = 0;
+
+int l = 0;
+
+for (l = 0; s[l] != '\0'; l++);
+
+for (int k = 0; k < l-1; k++)
+
+{
+
+for (int i = 0; i < l-1; i++)
+
+{
+
+if (s[i] != s[k]) count++;
+
+}
+
+max_c = (count > max_c) ? count : max_c;
+
+count = 0;
+
+}
+
+if (fl == 1)
+
+{
+
+if (copy == max_c)
+
+{
+
+fprintf_s(f2, "deleted string\n");
+
+max_c = 0;
+
+}
+
+else fprintf_s(f2, "%s", s);
+
+}
+
+}
+
+fclose(f);
+
+if (fl == 0)
+
+{
+
+fl = 1;
+
+copy = max_c;
+
+max_c = 0;
+
+goto a;
+
+}
+
+fclose(f2);
+
+}
