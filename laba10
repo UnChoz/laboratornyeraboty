@@ -1,0 +1,104 @@
+#pragma warning (disable : 4996)
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define NO 0
+#define YES 1
+
+int main(void)
+{
+	int flag, sflag, strlen, strcnt, i;
+	char **strarr, *str, c;
+	FILE *ifd, *ofd;
+	
+	// открытие файлов и проверка на ошибки
+	if ((ifd = fopen("file1.txt", "r")) == NULL || (ofd = fopen("file2.txt", "w")) == NULL)
+	{
+		printf("file can not open\n");
+		system("pause");
+		return -1;
+	}
+
+	strarr = NULL;	// массив строк пустой
+	str = NULL;		// текущаЯ строка пустаЯ
+	flag = NO;		// опускаем флаг строки
+	sflag = NO;		// опускаем флаг пробела
+	strlen = 0;		// обнулЯем длину строки
+	strcnt = 0;		// обнулЯем счетчик строк
+
+	// повторЯем пока не дойдем до конца файла
+	do {
+		c = fgetc(ifd);	// берем текущий символ из файла
+
+		// если конец строки
+		if (c == '\n' || c == EOF)
+		{
+			str = (char*)realloc(str, (strlen + 2) * sizeof(char));	// выделЯем памЯть
+			str[strlen++] = '\n';	// записываем символ перевода строки
+			str[strlen] = '\0';		// записываем символ конца строки
+			
+			flag = YES;	// поднимаем флаг
+			// проходим по всем сохраненным строкам
+			for (i = 0; i < strcnt; i++)
+			{
+				// если текущаЯ строка совпадает с уже найденной строкой
+				if (strcmp(str, strarr[i]) == 0)
+				{
+					flag = NO;	// опускаем флаг
+					break;	// выходим из цикла
+				}
+			}
+			
+			// если флаг осталсЯ поднЯт
+			if (flag == YES)
+			{
+				strarr = (char**)realloc(strarr, (strcnt + 1) * sizeof(char*));	// выделЯем памЯть в массиве строк
+				strarr[strcnt++] = str;		// записываем туда текущую строку
+			}
+			// если флаг был опущен
+			else
+			{
+				free(str);	// удалЯем текущую строку
+			}
+
+			str = NULL;		// строка пустаЯ
+			sflag = NO;		// опускаем флаг разделителЯ
+			flag = NO;		// опускаем флаг строки
+			strlen = 0;		// обнулЯем длину текущей строки
+		}
+		// если нашли пробел или табулЯцию
+		else if (c == ' ' || c == '\t')
+		{
+			// если строка началась и это первый разделитель
+			if (sflag == NO && flag == YES)
+			{
+				str = (char*)realloc(str, (strlen + 1) * sizeof(char));		// выделЯем памЯть в строке
+				str[strlen++] = ' ';	// записываем в строку пробел
+				sflag = YES;	// поднимаем флаг разделителЯ
+			}
+		}
+		// иначе
+		else
+		{
+			str = (char*)realloc(str, (strlen + 1) * sizeof(char));	// выделЯем памЯть в строке
+			str[strlen++] = c;	// записываем в нее текущий символ
+			flag = YES;		// поднимаем флаг строки
+			sflag = NO;		// опускаем флаг разделителЯ
+		}
+	} while (c != EOF);
+	fclose(ifd);	// закрываем входной файл
+	
+	// проходим по всем сохраненным строкам
+	for (i = 0; i < strcnt; i++)
+	{
+		fputs(strarr[i], ofd);	// выводим строку в файл
+		free(strarr[i]);		// освобождаем выделенную памЯть
+	}
+	fclose(ofd);	// закрываем выходной файл
+	free(strarr);	// освобождаем памЯть
+
+	printf("Program complete\n");
+	system("pause");
+	return 0;
+}
